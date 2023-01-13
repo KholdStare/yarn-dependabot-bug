@@ -1,0 +1,22 @@
+version: 2
+updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/backend/python/"
+    ignore:
+      - dependency-name: "boto3"
+      - dependency-name: "boto3-stubs"
+    schedule:
+      interval: "weekly"
+
+  # Typescript dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "monthly"
