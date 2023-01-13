@@ -1,0 +1,29 @@
+name: Build
+on:
+  pull_request:
+
+env:
+  # Removes the checksum for gluegun from the yarn.lock file
+  DAMN_GLUEGUN: sed -i -e '/bin\/gluegun/{;n;d}' yarn.lock
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: yarn
+          cache-dependency-path: |
+            yarn.lock
+
+      - name: Handle Gluegun
+        run: |
+          ${{ env.DAMN_GLUEGUN }}
+
+      - name: Install npm packages
+        run: |
+          yarn install --immutable
